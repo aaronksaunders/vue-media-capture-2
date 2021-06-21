@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter.mediacapture",
+	"appName": "vue-media-capture-2",
+	"webDir": "dist",
+	"bundledWebRuntime": false
+}

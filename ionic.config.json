@@ -1,0 +1,7 @@
+{
+  "name": "vue-media-capture-2",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
