@@ -23,7 +23,7 @@ import {
 } from "@ionic/vue";
 import { MediaCapture } from "@ionic-native/media-capture";
 import { ref } from "vue";
-import { Capacitor } from "@capacitor/core";
+import { Capacitor, CapacitorPlatforms } from "@capacitor/core";
 import { Filesystem, Directory } from "@capacitor/filesystem";
 
 export default {
@@ -54,12 +54,23 @@ export default {
         ).then(r => r.blob());
         console.log(videoInfo.value.fullPath, blob);
 
-        // GET A LIST OF THE FILES STORED IN CACHE DIR ON ANDROID
-        const files = await Filesystem.readdir({
-          path: "",
-          directory: Directory.Cache
-        });
-        console.log("files", JSON.stringify(files));
+        if (Capacitor.getPlatform() === "ios") {
+          // GET A LIST OF THE FILES STORED IN TEMP DIR ON IOS
+          const files = await Filesystem.readdir({
+            path: videoInfo.value.fullPath.substring(
+              0,
+              videoInfo.value.fullPath.lastIndexOf("/")
+            )
+          });
+          console.log("files", JSON.stringify(files));
+        } else {
+          // GET A LIST OF THE FILES STORED IN CACHE DIR ON ANDROID
+          const files = await Filesystem.readdir({
+            path: "",
+            directory: Directory.Cache
+          });
+          console.log("files", JSON.stringify(files));
+        }
       } catch (error) {
         console.log("takeVideo error", error);
       }
